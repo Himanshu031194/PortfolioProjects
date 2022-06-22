@@ -45,11 +45,12 @@ order by Total_Death_Count desc;
 
 --Breaking things down by Continent
 --Showing the continents with the highest death count per population
-Select Continent, max(cast(total_deaths as int)) as Total_Death_Count
-from PortfolioProject..CovidDeaths
-where continent is not null
-Group By Continent
-order by Total_Death_Count desc;
+Select location, SUM(cast(new_deaths as int)) as TotalDeathCount
+From PortfolioProject..CovidDeaths
+Where continent is null 
+and location not in ('World', 'European Union', 'International')
+Group by location
+order by TotalDeathCount desc
 
 --Global Numbers
 Select date, sum(new_cases) as total_cases, sum(cast(new_deaths as int)) as total_deaths, (sum(cast(new_deaths as int))/sum(new_cases)*100) as DeathPercentage
